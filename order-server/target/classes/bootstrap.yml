@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: order
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config
+      profile: dev
+    stream:
+      bindings:
+        myMessage:
+          group: order
+          content-type:  application/json
+
+  rabbitmq:
+      host: 119.29.199.151
+      port: 5672
+      username: guest
+      password: guest
+  redis:
+    host: localhost
+    port: 6379
+  zipkin:
+    base-url: http://119.29.199.151:9411/
+    enabled: true
+    discovery-client-enabled: true
+    locator:
+      discovery:
+        enabled: true
+    sender:
+      type: web
+  sleuth:
+    sampler:
+      probability: 1
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds:  1000
+      circuitBreaker:
+        enabled: true
+        requestVolumeThreshold: 10
+        sleepWindowInMilliseconds: 10000
+        errorThresholdPercentage: 60
+
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  server:
+    servlet:
+      context-path: /
